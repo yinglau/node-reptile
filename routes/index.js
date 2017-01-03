@@ -10,27 +10,33 @@ router.get('/', function(req, res, next) {
     var eq = new EventProxy();
     eq.all('postList', function(postList) {
         console.log('数据已经获取');
-        res.send(postList);
+        postList.concat(postList);
+        console.log(postList);
+        //res.send();
     });
-    superagent
-        .get('https://www.cnblogs.com/')
-        .end(function(err, sres) {
-            if(err) {
-                console.log('抓取出错');
-                return next()
-            }
-            var data = [];
-            var $ = cheerio.load(sres.text);
-            var $cell = $('#post_list .post_item');
-            $cell.each(function(key, item) {
-                data.push({
-                    link: $('.titlelnk', item).attr('href'),
-                    title: $('.titlelnk', item).text(),
-                    desc: $('.post_item_summary', item).text()
-                })
+    for(var i = 1; i < 4; i++) {
+        console.log('开始抓取页面https://www.cnblogs.com/#p' + i);
+        superagent
+            .get('https://www.cnblogs.com/#p' + i)
+            .end(function(err, sres) {
+                if(err) {
+                    console.log('抓取出错');
+                    return next()
+                }
+                var data = [];
+                var $ = cheerio.load(sres.text);
+                var $cell = $('#post_list .post_item');
+                $cell.each(function(key, item) {
+                    data.push({
+                        link: $('.titlelnk', item).attr('href'),
+                        title: $('.titlelnk', item).text(),
+                        desc: $('.post_item_summary', item).text()
+                    })
+                });
+                eq.emit('postList', data);
             });
-            eq.emit('postList', data);
-        });
+    }
+
     console.log('end')
     //res.render('index')
 });
