@@ -1,0 +1,23 @@
+{
+  "name": "node-reptile",
+  "version": "1.0.0",
+  "description": "a node reptile",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "supervisor --harmony server.js"
+  },
+  "author": "cloudying",
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "^1.15.2",
+    "cheerio": "^0.22.0",
+    "config-lite": "^1.5.0",
+    "ejs": "^2.5.5",
+    "eventproxy": "^0.3.5",
+    "express": "^4.14.0",
+    "express-winston": "^2.1.2",
+    "superagent": "^3.3.1",
+    "winston": "^2.3.0"
+  }
+}
